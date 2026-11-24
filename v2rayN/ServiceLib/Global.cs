@@ -95,6 +95,8 @@ public class Global
     public const string XrayLocalCert = "XRAY_LOCATION_CERT";
     public const int SpeedTestPageSize = 1000;
     public const int SpeedTestConcurrencyCountMin = 10;
+    public const int RealPingConcurrency = 20;
+    public const int RealPingTimeoutSeconds = 8;
     public const string LinuxBash = "/bin/bash";
     public const string StringTrue = "true";
     public const string StringFalse = "false";

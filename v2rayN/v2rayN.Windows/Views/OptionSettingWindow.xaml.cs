@@ -47,6 +47,8 @@ public partial class OptionSettingWindow
 
         cmbMixedConcurrencyCount.ItemsSource = Enumerable.Range(Global.SpeedTestConcurrencyCountMin, 20).ToList();
         cmbSpeedTestTimeout.ItemsSource = Enumerable.Range(2, 5).Select(i => i * 5).ToList();
+        cmbRealPingConcurrency.ItemsSource = new List<int> { 5, 10, 20, 30, 50, 100, 200 };
+        cmbRealPingTimeout.ItemsSource = new List<int> { 3, 5, 8, 10, 15, 20, 30 };
         cmbSpeedTestUrl.ItemsSource = Global.SpeedTestUrls;
         cmbSpeedPingTestUrl.ItemsSource = Global.SpeedPingTestUrls;
         cmbUdpTestTarget.ItemsSource = Global.UdpTestTargets;
@@ -118,6 +120,8 @@ public partial class OptionSettingWindow
             this.Bind(ViewModel, vm => vm.SpeedPingTestUrl, v => v.cmbSpeedPingTestUrl.Text).DisposeWith(disposables);
             this.Bind(ViewModel, vm => vm.UdpTestTarget, v => v.cmbUdpTestTarget.Text).DisposeWith(disposables);
             this.Bind(ViewModel, vm => vm.MixedConcurrencyCount, v => v.cmbMixedConcurrencyCount.Text).DisposeWith(disposables);
+            this.Bind(ViewModel, vm => vm.RealPingConcurrency, v => v.cmbRealPingConcurrency.Text).DisposeWith(disposables);
+            this.Bind(ViewModel, vm => vm.RealPingTimeout, v => v.cmbRealPingTimeout.Text).DisposeWith(disposables);
             this.Bind(ViewModel, vm => vm.IPAPIUrl, v => v.cmbIPAPIUrl.Text).DisposeWith(disposables);
 
             this.Bind(ViewModel, vm => vm.NotProxyLocalAddress, v => v.tognotProxyLocalAddress.IsChecked).DisposeWith(disposables);

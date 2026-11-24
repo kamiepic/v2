@@ -153,6 +153,8 @@ public class SpeedTestItem
     public string UdpTestTarget { get; set; }
     public int? SpeedTestPageSize { get; set; }
     public int? SpeedTestDelayInterval { get; set; }
+    public int? RealPingConcurrency { get; set; }
+    public int? RealPingTimeout { get; set; }
 }
 
 public class RoutingBasicItem

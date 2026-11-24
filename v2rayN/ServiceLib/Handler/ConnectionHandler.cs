@@ -77,14 +77,14 @@ public static class ConnectionHandler
         return responseTime;
     }
 
-    public static async Task<int> GetRealPingTime(HttpClient client, CancellationToken cancellationToken = default)
+    public static async Task<int> GetRealPingTime(HttpClient client, CancellationToken cancellationToken = default, TimeSpan? timeout = null)
     {
         var url = ConfigTextHandler.Config.SpeedTestItem.SpeedPingTestUrl;
         var responseTime = -1;
         try
         {
             using var timeoutCts = new CancellationTokenSource();
-            timeoutCts.CancelAfter(Global.LocalFetch);
+            timeoutCts.CancelAfter(timeout ?? Global.LocalFetch);
             using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, timeoutCts.Token);
             var linkedToken = linkedCts.Token;
 

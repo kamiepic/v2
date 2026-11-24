@@ -11,6 +11,8 @@ public class SpeedtestService(Config config, Func<SpeedTestResult, Task> updateF
     private readonly List<CancellationTokenSource> _runCtsList = [];
     private readonly int _speedTestPageSize = config.SpeedTestItem.SpeedTestPageSize ?? Global.SpeedTestPageSize;
     private readonly TimeSpan _delayInterval = TimeSpan.FromSeconds(config.SpeedTestItem.SpeedTestDelayInterval ?? 1);
+    private readonly int _realPingConcurrency = Math.Max(1, config.SpeedTestItem.RealPingConcurrency ?? Global.RealPingConcurrency);
+    private readonly TimeSpan _realPingTimeout = TimeSpan.FromSeconds(Math.Max(1, config.SpeedTestItem.RealPingTimeout ?? Global.RealPingTimeoutSeconds));
 
     public Task RunLoop(ESpeedActionType actionType, List<ProfileItem> selecteds, CancellationToken ct = default)
     {
@@ -295,7 +297,9 @@ public class SpeedtestService(Config config, Func<SpeedTestResult, Task> updateF
 
             var parallelOptions = new ParallelOptions
             {
-                MaxDegreeOfParallelism = selecteds.Count,
+                // Sliding window: Parallel.ForEachAsync pulls the next item the moment a slot frees up,
+                // so at most N tests are in flight and a finished/timed-out test is replaced immediately.
+                MaxDegreeOfParallelism = Math.Min(selecteds.Count, _realPingConcurrency),
                 CancellationToken = ct,
             };
 
@@ -495,9 +499,9 @@ public class SpeedtestService(Config config, Func<SpeedTestResult, Task> updateF
         try
         {
             using var handler = HttpClientHelper.CreateProxySocketsHttpHandler(it.Port, new());
-            handler.ConnectTimeout = Global.LocalFetch;
+            handler.ConnectTimeout = _realPingTimeout;
             using var client = new HttpClient(handler, false);
-            responseTime = await ConnectionHandler.GetRealPingTime(client, ct);
+            responseTime = await ConnectionHandler.GetRealPingTime(client, ct, _realPingTimeout);
 
             ProfileExManager.Instance.SetTestDelay(it.IndexId, responseTime);
             await UpdateFunc(it.IndexId, responseTime.ToString());

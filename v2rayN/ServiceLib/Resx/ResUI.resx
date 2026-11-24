@@ -1380,6 +1380,12 @@
   <data name="TbSettingsMixedConcurrencyCount" xml:space="preserve">
     <value>The number of concurrent tests during multi-test</value>
   </data>
+  <data name="TbSettingsRealPingConcurrency" xml:space="preserve">
+    <value>Real delay test: simultaneous tests (slots refill instantly)</value>
+  </data>
+  <data name="TbSettingsRealPingTimeout" xml:space="preserve">
+    <value>Real delay test: timeout per test (seconds)</value>
+  </data>
   <data name="TbSettingsExceptionTip2" xml:space="preserve">
     <value>Exclusions: Do not use proxy server for the following addresses. Use comma (,) to separate entries.</value>
   </data>

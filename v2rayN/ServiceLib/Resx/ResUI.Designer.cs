@@ -4716,6 +4716,18 @@ namespace ServiceLib.Resx {
             }
         }
         
+        public static string TbSettingsRealPingConcurrency {
+            get {
+                return ResourceManager.GetString("TbSettingsRealPingConcurrency", resourceCulture);
+            }
+        }
+        
+        public static string TbSettingsRealPingTimeout {
+            get {
+                return ResourceManager.GetString("TbSettingsRealPingTimeout", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   查找类似 Xray Mux setting 的本地化字符串。
         /// </summary>

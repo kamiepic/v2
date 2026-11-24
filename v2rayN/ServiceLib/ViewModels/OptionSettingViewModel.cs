@@ -69,6 +69,8 @@ public partial class OptionSettingViewModel : MyReactiveObject, ICloseable
     [Reactive] public partial string SpeedPingTestUrl { get; set; }
     [Reactive] public partial string UdpTestTarget { get; set; }
     [Reactive] public partial int MixedConcurrencyCount { get; set; }
+    [Reactive] public partial int RealPingConcurrency { get; set; }
+    [Reactive] public partial int RealPingTimeout { get; set; }
     [Reactive] public partial string IPAPIUrl { get; set; }
 
     #endregion SpeedTest
@@ -206,6 +208,8 @@ public partial class OptionSettingViewModel : MyReactiveObject, ICloseable
         SpeedTestTimeout = _config.SpeedTestItem.SpeedTestTimeout;
         SpeedTestUrl = _config.SpeedTestItem.SpeedTestUrl;
         MixedConcurrencyCount = _config.SpeedTestItem.MixedConcurrencyCount;
+        RealPingConcurrency = _config.SpeedTestItem.RealPingConcurrency ?? Global.RealPingConcurrency;
+        RealPingTimeout = _config.SpeedTestItem.RealPingTimeout ?? Global.RealPingTimeoutSeconds;
         SpeedPingTestUrl = _config.SpeedTestItem.SpeedPingTestUrl;
         UdpTestTarget = _config.SpeedTestItem.UdpTestTarget;
         IPAPIUrl = _config.SpeedTestItem.IPAPIUrl;
@@ -386,6 +390,8 @@ public partial class OptionSettingViewModel : MyReactiveObject, ICloseable
         // SpeedTest
         _config.SpeedTestItem.SpeedTestTimeout = SpeedTestTimeout;
         _config.SpeedTestItem.MixedConcurrencyCount = MixedConcurrencyCount;
+        _config.SpeedTestItem.RealPingConcurrency = Math.Max(1, RealPingConcurrency);
+        _config.SpeedTestItem.RealPingTimeout = Math.Max(1, RealPingTimeout);
         _config.SpeedTestItem.SpeedTestUrl = SpeedTestUrl;
         _config.SpeedTestItem.SpeedPingTestUrl = SpeedPingTestUrl;
         _config.SpeedTestItem.UdpTestTarget = UdpTestTarget;
